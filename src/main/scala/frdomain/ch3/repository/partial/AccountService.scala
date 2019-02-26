@@ -3,8 +3,10 @@ package repository
 package partial
 
 import java.util.Date
-import util.{ Try, Success, Failure }
-import common._
+
+import frdomain.ch3.repository.common._
+
+import scala.util.{Failure, Success, Try}
 
 trait AccountService[Account, Amount, Balance] {
   def open(no: String, name: String, openingDate: Option[Date]): AccountRepository => Try[Account]
@@ -60,7 +62,7 @@ object App {
   import AccountService._
   import Syntax._
 
-  def op(no: String) = for {
+  def op(no: String): AccountRepository => Try[Balance] = for {
     _ <- credit(no, BigDecimal(100))
     _ <- credit(no, BigDecimal(300))
     _ <- debit(no, BigDecimal(160))
